@@ -6,12 +6,15 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "global": "^4.4.0",
     "gravatar": "^1.8.2",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.4",
-    "multer": "^1.4.5-lts.1"
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "yarn": "^1.22.21"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
