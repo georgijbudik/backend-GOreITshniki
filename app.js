@@ -4,6 +4,7 @@ const logger = require("morgan");
 require("dotenv").config();
 
 const authRouter = require("./src/routes/api/auth");
+const exercisesRouter = require('./src/routes/api/exercises');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("/users", authRouter);
+app.use('/exercises', exercisesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not Found" });
