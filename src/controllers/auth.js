@@ -2,7 +2,6 @@ const { User } = require("../models/users");
 const { HttpError, ctrlWrapper } = require("../helpers/");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const nanid = require("nanoid");
 
 const { SECRET_KEY } = process.env;
 
@@ -17,13 +16,9 @@ const register = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  // const payload = { id: nanid };
-  // const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    // token: token,
   });
 
   res.status(201).json({
