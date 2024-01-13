@@ -1,6 +1,6 @@
 const express = require("express");
 const { validateBody, authenticate, isValidId } = require("../../middlewares");
-const { schemas } = require("../../models/user");
+const { schemas } = require("../../models/users");
 const {
   register,
   login,
