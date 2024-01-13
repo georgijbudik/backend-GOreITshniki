@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/users");
 const HttpError = require("../helpers/HttpError");
-
 const { SECRET_KEY } = process.env;
 
 const authenticate = async (req, res, next) => {
@@ -15,8 +14,6 @@ const authenticate = async (req, res, next) => {
 
   try {
     const { id } = jwt.verify(token, SECRET_KEY);
-
-    console.log(id);
 
     const user = await User.findById(id);
 
