@@ -4,6 +4,7 @@ const logger = require("morgan");
 require("dotenv").config();
 
 const authRouter = require("./src/routes/api/auth");
+const exercisesRouter = require('./src/routes/api/exercises');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use('/exercises', exercisesRouter);
 app.use("/api/users", authRouter);
 
 app.use((req, res) => {
