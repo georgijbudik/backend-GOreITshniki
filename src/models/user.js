@@ -24,14 +24,6 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    avatarURL: {
-      type: String,
-      required: false,
-    },
-    verify: {
-      type: Boolean,
-      dafault: false,
-    },
   },
   { versionKey: false, timestamps: true }
 );

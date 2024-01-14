@@ -3,7 +3,7 @@ const { HttpError, ctrlWrapper } = require("../helpers/");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY, BASE_URL } = process.env;
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -16,7 +16,10 @@ const register = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+  });
 
   res.status(201).json({
     email: newUser.email,
