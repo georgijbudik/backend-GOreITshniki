@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use('/exercises', exercisesRouter);
+app.use('/api/exercises', exercisesRouter);
 app.use("/api/users", authRouter);
 
 app.use((req, res) => {
