@@ -1,0 +1,362 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.2",
+    "title": "GOreITshniki",
+    "description": "Api"
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://backend-project-dl3a.onrender.com/api",
+      "description": "API base URL"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Product"
+    },
+    {
+      "name": "Exercise"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User registration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "409": {
+            "description": "Email already in use"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Email or password invalid"
+          },
+          "409": {
+            "description": "Email already in use"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User logout",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Logout success"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Get products",
+        "responses": {
+          "200": {
+            "description": "Products found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/products/categories": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Get product categories",
+        "responses": {
+          "200": {
+            "description": "Product categories found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/exercises": {
+      "get": {
+        "tags": ["Exercise"],
+        "summary": "Get exercises",
+        "responses": {
+          "200": {
+            "description": "Exercises found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/exercises/bodyparts": {
+      "get": {
+        "tags": ["Exercise"],
+        "summary": "Get body parts exercises",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "filter": "Body parts",
+                  "name": "string",
+                  "imgURL": "string"
+                }
+              }
+            },
+            "description": "Body parts exercises found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/exercises/muscles": {
+      "get": {
+        "tags": ["Exercise"],
+        "summary": "Get muscles exercises",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "filter": "Muscles",
+                  "name": "string",
+                  "imgURL": "string"
+                }
+              }
+            },
+            "description": "Muscles exercises found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/exercises/equipment": {
+      "get": {
+        "tags": ["Exercise"],
+        "summary": "Get equipment exercises",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "filter": "Equipment",
+                  "name": "string",
+                  "imgURL": "string"
+                }
+              }
+            },
+            "description": "Equipment exercises found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["email", "name", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 6
+          }
+        },
+        "example": [
+          {
+            "email": "user@example.com",
+            "name": "Gore Itshnik",
+            "password": "qwerty123"
+          }
+        ]
+      },
+      "Exercise": {
+        "type": "object",
+        "properties": {
+          "bodyparts": {
+            "type": "string"
+          },
+          "equipment": {
+            "type": "string"
+          },
+          "gifUrl": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "burnedCalories": {
+            "type": "number"
+          },
+          "time": {
+            "type": "number"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number"
+          },
+          "calories": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "groupBloodNotAllowed": {
+            "type": "object",
+            "properties": {
+              "1": {
+                "type": "boolean"
+              },
+              "2": {
+                "type": "boolean"
+              },
+              "3": {
+                "type": "boolean"
+              },
+              "4": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
