@@ -8,6 +8,7 @@ const {
   getCurrent,
   updateUser,
   addAvatar,
+  getDataCalorie,
 } = require("../../controllers/auth");
 
 const router = express.Router();
