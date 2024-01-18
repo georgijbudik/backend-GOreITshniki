@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://backend-project-dl3a.onrender.com",
+      "url": "https://backend-project-dl3a.onrender.com/api",
       "description": "API base URL"
     }
   ],
@@ -24,7 +24,7 @@
     }
   ],
   "paths": {
-    "/api/users/register": {
+    "/users/register": {
       "post": {
         "tags": ["User"],
         "summary": "User registration",
