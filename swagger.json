@@ -1,15 +1,13 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "2.0.2",
+    "version": "1.0.0",
     "title": "GOreITshniki",
     "description": "Api"
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
   "servers": [
     {
-      "url": "https://backend-project-dl3a.onrender.com/api",
+      "url": "https://backend-project-dl3a.onrender.com",
       "description": "API base URL"
     }
   ],
@@ -26,7 +24,7 @@
     }
   ],
   "paths": {
-    "/users/register": {
+    "/api/users/register": {
       "post": {
         "tags": ["User"],
         "summary": "User registration",
@@ -34,15 +32,26 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
+              "example": {
+                "email": "user@example.com",
+                "name": "Gore Itshnik",
+                "password": "qwerty123"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "email": "user@example.com",
+                  "name": "Gore Itshnik",
+                  "token": "string"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad request (invalid request body)"
@@ -97,21 +106,96 @@
         }
       }
     },
-    "/users/logout": {
-      "post": {
-        "tags": ["User"],
-        "summary": "User logout",
-        "parameters": [
+    "/users/current": {
+      "get": {
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The token issued to the current user.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "Bearer": []
           }
         ],
+        "tags": ["User"],
+        "summary": "Get current user",
+        "responses": {
+          "201": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Email or password invalid"
+          },
+          "409": {
+            "description": "Email already in use"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/update": {
+      "patch": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": ["User"],
+        "summary": "Update user information",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "height": {
+                    "type": "number"
+                  },
+                  "currentWeight": {
+                    "type": "number"
+                  },
+                  "desiredWeight": {
+                    "type": "number"
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "sex": {
+                    "type": "string"
+                  },
+                  "blood": {
+                    "type": "number"
+                  },
+                  "levelActivity": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update success"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": ["User"],
+        "summary": "User logout",
         "responses": {
           "204": {
             "description": "Logout success"
@@ -121,12 +205,42 @@
     },
     "/products": {
       "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Product"],
         "summary": "Get products",
-        "responses": {
-          "200": {
-            "description": "Products found"
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Keyword",
+            "schema": {
+              "type": "string"
+            }
           },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recommendation",
+            "in": "query",
+            "description": "Type",
+            "schema": {
+              "type": "string",
+              "enum": ["all", "recommended", "not recommended"],
+              "default": "all"
+            }
+          }
+        ],
+        "responses": {
           "401": {
             "description": "Not authorized"
           },
@@ -138,12 +252,14 @@
     },
     "/products/categories": {
       "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Product"],
         "summary": "Get product categories",
         "responses": {
-          "200": {
-            "description": "Product categories found"
-          },
           "401": {
             "description": "Not authorized"
           },
@@ -155,6 +271,11 @@
     },
     "/exercises": {
       "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Exercise"],
         "summary": "Get exercises",
         "responses": {
@@ -175,6 +296,11 @@
     },
     "/exercises/bodyparts": {
       "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Exercise"],
         "summary": "Get body parts exercises",
         "responses": {
@@ -204,6 +330,11 @@
     },
     "/exercises/muscles": {
       "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Exercise"],
         "summary": "Get muscles exercises",
         "responses": {
@@ -233,6 +364,11 @@
     },
     "/exercises/equipment": {
       "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Exercise"],
         "summary": "Get equipment exercises",
         "responses": {
@@ -280,15 +416,49 @@
             "type": "string",
             "description": "User's password",
             "minLength": 6
+          },
+          "token": {
+            "type": "string",
+            "default": null
+          },
+          "avatarURL": {
+            "type": "string",
+            "minimum": 150,
+            "default": ""
+          },
+          "height": {
+            "type": "number",
+            "default": null
+          },
+          "currentWeight": {
+            "type": "number",
+            "default": null,
+            "minimum": 35
+          },
+          "desiredWeight": {
+            "type": "number",
+            "default": null,
+            "minimum": 35
+          },
+          "birthday": {
+            "type": "string",
+            "default": null,
+            "format": "date",
+            "example": "2006-01-01"
+          },
+          "blood": {
+            "type": "number",
+            "enum": [1, 2, 3, 4]
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["male", "female"]
+          },
+          "levelActivity": {
+            "type": "number",
+            "enum": [1, 2, 3, 4, 5]
           }
-        },
-        "example": [
-          {
-            "email": "user@example.com",
-            "name": "Gore Itshnik",
-            "password": "qwerty123"
-          }
-        ]
+        }
       },
       "Exercise": {
         "type": "object",
