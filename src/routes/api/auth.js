@@ -8,7 +8,6 @@ const {
   getCurrent,
   updateUser,
   addAvatar,
-  getDataCalorie,
 } = require("../../controllers/auth");
 
 const router = express.Router();
@@ -21,13 +20,13 @@ router.get("/current", authenticate, getCurrent);
 
 router.post("/logout", authenticate, logout);
 
-router.post(
+router.patch(
   "/update",
   authenticate,
   validateBody(schemas.updateUser),
   updateUser
 );
 
-router.post("/user", authenticate, upload.single("avatar"), addAvatar);
+router.patch("/avatar", authenticate, upload.single("avatar"), addAvatar);
 
 module.exports = router;
