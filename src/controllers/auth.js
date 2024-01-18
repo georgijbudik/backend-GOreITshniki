@@ -21,24 +21,22 @@ const register = async (req, res) => {
     password: hashPassword,
   });
 
-  setTimeout(async () => {
-    const { _id } = await User.findOne({ email });
+  const { _id } = await User.findOne({ email });
 
-    const payload = { id: _id };
-    const tokenParse = jwt.sign(payload, SECRET_KEY, {
-      expiresIn: "23h",
-    });
+  const payload = { id: _id };
+  const tokenParse = jwt.sign(payload, SECRET_KEY, {
+    expiresIn: "23h",
+  });
 
-    await User.findByIdAndUpdate(_id, { token: tokenParse });
+  await User.findByIdAndUpdate(_id, { token: tokenParse });
 
-    const { token } = await User.findOne({ email });
+  const { token } = await User.findOne({ email });
 
-    res.status(201).json({
-      email: newUser.email,
-      name: newUser.name,
-      token: token,
-    });
-  }, 1000);
+  res.status(201).json({
+    email: newUser.email,
+    name: newUser.name,
+    token: token,
+  });
 };
 
 const login = async (req, res) => {
@@ -189,7 +187,7 @@ const addAvatar = async (req, res) => {
   const user = await User.findOne(_id);
 
   await User.findOneAndUpdate(user, { avatarURL: avatarURL });
-  res.status(200).json(avatarURL);
+  res.status(200).json({ avatarURL });
 };
 
 module.exports = {

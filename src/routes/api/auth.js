@@ -27,6 +27,6 @@ router.patch(
   updateUser
 );
 
-router.patch("/avatar", authenticate, upload.single("avatar"), addAvatar);
+router.patch("/avatar", authenticate, upload.single("avatarURL"), addAvatar);
 
 module.exports = router;
