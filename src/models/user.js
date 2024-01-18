@@ -69,6 +69,11 @@ const userSchema = new Schema(
       enum: [1, 2, 3, 4, 5],
       required: false,
     },
+    calories: {
+      type: Number,
+      required: false,
+      default: null,
+    },
   },
   { versionKey: false, timestamps: true }
 );
