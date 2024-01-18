@@ -3,9 +3,10 @@ const Product = require("../models/product");
 const ProductCategory = require("../models/productCategory");
 
 const getProducts = async (req, res) => {
-  const { search, category, type } = req.query;
-
+  const { search, category, type = "all", page = 1, limit = 10 } = req.query;
   const { blood } = req.user;
+
+  const skip = (page - 1) * limit;
 
   const productsQuery = Product.find();
 
@@ -21,7 +22,7 @@ const getProducts = async (req, res) => {
   } else if (type === "not recommended") {
     productsQuery.where("groupBloodNotAllowed." + blood).equals(true);
   }
-  const products = await Product.find(productsQuery);
+  const products = await Product.find(productsQuery).skip(skip).limit(limit);
   res.status(200).json(products);
 };
 
