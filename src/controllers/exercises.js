@@ -5,6 +5,7 @@ const { Filter } = require('../models/filter')
 const { HttpError, ctrlWrapper } = require("../helpers/");
 
 
+
 const getExercises = async(req, res) => {
 
     const result = await Exercise.find();
@@ -15,39 +16,33 @@ const getExercises = async(req, res) => {
       res.json(result);
 }
 
-const getBodyParts = async(req, res) => {
-    
-    const result = await Filter.find({ filter: 'Body parts' });
+const types = {
+  bodyparts: { filter: 'Body parts' },
+  muscles: { filter: 'Muscles' },
+  equipment: { filter: 'Equipment' },
+};
 
-    if (!result) {
-        throw HttpError(404, 'Not found');
-      }
-      res.json(result);
-}
 
-const getMuscles = async(req, res) => {
+const getExercisesByType = async (req, res) => {
 
-    const result = await Filter.find({filter: 'Muscles'});
+  const { type } = req.params;
 
-    if (!result) {
-        throw HttpError(404, 'Not found');
-      }
-      res.json(result);
-}
+  if (!types[type]) {
+    throw HttpError(400, 'Invalid type');
+  }
 
-const getEquipment = async(req, res) => {
+  const query = types[type];
+  const result = await Filter.find(query);
 
-    const result = await Filter.find({filter: 'Equipment'});
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
 
-    if (!result) {
-        throw HttpError(404, 'Not found');
-      }
-      res.json(result);
-}
+  res.json(result);
+};
+
 
 module.exports = {
     getExercises: ctrlWrapper(getExercises),
-    getBodyParts: ctrlWrapper(getBodyParts),
-    getMuscles: ctrlWrapper(getMuscles),
-    getEquipment: ctrlWrapper(getEquipment),
+    getExercisesByType: ctrlWrapper(getExercisesByType),
   }
