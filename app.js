@@ -4,6 +4,7 @@ const logger = require("morgan");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const productsRouter = require("./src/routes/api/products");
+const diaryRouter = require("./src/routes/api/diary");
 require("dotenv").config();
 
 const authRouter = require("./src/routes/api/auth");
@@ -23,6 +24,7 @@ app.use("/api/exercises", exercisesRouter);
 app.use("/api/users", authRouter);
 
 app.use("/api/products", productsRouter);
+app.use("/api/diary", diaryRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not Found" });
