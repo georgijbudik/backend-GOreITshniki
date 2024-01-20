@@ -1,28 +1,31 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const exerciseSchema = new Schema({
+const exerciseSchema = new Schema(
+  {
     bodyPart: {
-        type: String,
+      type: String,
     },
     equipment: {
-        type: String,
+      type: String,
     },
     gifUrl: {
-        type: String,
+      type: String,
     },
     name: {
-        type: String, 
+      type: String,
     },
     target: {
-        type: String,
+      type: String,
     },
     burnedCalories: {
-        type: Number,
+      type: Number,
     },
     time: {
-        type: Number,
-    }, 
-}, { versionKey: false });
+      type: Number,
+    },
+  },
+  { versionKey: false }
+);
 
 const Exercise = model("exercise", exerciseSchema);
 
