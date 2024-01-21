@@ -1,5 +1,5 @@
 const express = require("express");
-// const diaryCtrl = require("../../controllers/diary.js"); // треба зробити
+
 const {
   addExercise,
   addProduct,
