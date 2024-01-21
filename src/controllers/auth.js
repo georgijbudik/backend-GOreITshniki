@@ -2,6 +2,7 @@ const { User } = require("../models/user");
 const { HttpError, ctrlWrapper } = require("../helpers/");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Diary = require("../models/Diary");
 
 const { SECRET_KEY } = process.env;
 
@@ -22,6 +23,8 @@ const register = async (req, res) => {
   });
 
   const { _id } = await User.findOne({ email });
+
+  await Diary.create({ owner: newUser._id });
 
   const payload = { id: _id };
   const tokenParse = jwt.sign(payload, SECRET_KEY, {

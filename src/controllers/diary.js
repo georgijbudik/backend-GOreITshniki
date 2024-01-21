@@ -5,7 +5,6 @@ const { ctrlWrapper } = require("../helpers/index.js");
 const { HttpError, createNewDay } = require("../helpers/index.js");
 
 const addExercise = async (req, res) => {
-  console.log(req.user);
   const { _id: userId } = req.user;
   const { id } = req.params;
   const { time, date } = req.body;
@@ -27,7 +26,6 @@ const addExercise = async (req, res) => {
     owner: userId,
     "days.date": date,
   });
-
   if (existingDiaryByDay) {
     const existingExercise = existingDiaryByDay.days
       .find((day) => day.date === date)
@@ -54,6 +52,7 @@ const addExercise = async (req, res) => {
 
       return res.status(200).json({ message: "Update successful" });
     }
+
     await Diary.findOneAndUpdate(
       { owner: userId, "days.date": date },
 
@@ -72,7 +71,6 @@ const addExercise = async (req, res) => {
   } else {
     await createNewDay(req, existingDiary, burnedCalories);
   }
-
   const exercise = await Exercise.findById(id, "-time -burnedCalories");
   return res.status(201).json({ exercise, time, burnedCalories });
 };
@@ -222,6 +220,7 @@ const deleteProductById = async (req, res) => {
 
   return res.status(200).json({ message: "Delete successful" });
 };
+
 module.exports = {
   addExercise: ctrlWrapper(addExercise),
   addProduct: ctrlWrapper(addProduct),
