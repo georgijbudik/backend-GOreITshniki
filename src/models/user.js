@@ -70,9 +70,9 @@ const userSchema = new Schema(
       required: false,
     },
     calories: {
-      type: Number,
+      type: String,
       required: false,
-      default: 0,
+      default: null,
     },
   },
   { versionKey: false, timestamps: true }
