@@ -18,7 +18,6 @@ const createNewDay = async (
         date,
         products: [{ weight, product: id, consumedCalories }],
       };
-
   await Diary.findByIdAndUpdate(
     usersDiary._id,
     { $push: { days: newDay } },
