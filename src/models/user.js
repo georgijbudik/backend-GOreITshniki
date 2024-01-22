@@ -48,7 +48,7 @@ const userSchema = new Schema(
     },
     birthday: {
       type: Date,
-      max: "2006-01-01",
+      min: "2006-01-01",
       required: false,
       default: null,
     },
@@ -72,7 +72,6 @@ const userSchema = new Schema(
     calories: {
       type: Number,
       required: false,
-      default: null,
     },
   },
   { versionKey: false, timestamps: true }
