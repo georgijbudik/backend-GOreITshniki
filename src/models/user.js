@@ -47,8 +47,7 @@ const userSchema = new Schema(
       required: false,
     },
     birthday: {
-      type: Number,
-      max: "2006-01-01",
+      type: Date,
       required: false,
       default: null,
     },
