@@ -316,6 +316,16 @@
         "tags": ["Product"],
         "summary": "Get product categories",
         "responses": {
+          "200": {
+            "description": "Product categories found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCategory"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Not authorized"
           },
@@ -336,7 +346,14 @@
         "summary": "Get exercises",
         "responses": {
           "200": {
-            "description": "Exercises found"
+            "description": "Exercises found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exercise"
+                }
+              }
+            }
           },
           "401": {
             "description": "Not authorized"
@@ -350,15 +367,27 @@
         }
       }
     },
-    "/exercises/bodyparts": {
+    "/exercises/:type": {
       "get": {
         "security": [
           {
             "Bearer": []
           }
         ],
-        "tags": ["Exercise"],
-        "summary": "Get body parts exercises",
+        "tags": ["Filter"],
+        "summary": "Get exercises by type",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "description": "Type of exercises",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["body parts, muscles, equipment"]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -369,8 +398,7 @@
                   "imgURL": "string"
                 }
               }
-            },
-            "description": "Body parts exercises found"
+            }
           },
           "401": {
             "description": "Not authorized"
@@ -384,27 +412,47 @@
         }
       }
     },
-    "/exercises/muscles": {
+    "/exercises/:type/:name": {
       "get": {
         "security": [
           {
             "Bearer": []
           }
         ],
-        "tags": ["Exercise"],
-        "summary": "Get muscles exercises",
+        "tags": ["Filter"],
+        "summary": "Get exercises by names",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "description": "Type of exercises",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["body parts, muscles, equipment"]
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the exercises",
+            "example": {
+              "name": "lower legs"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "example": {
-                  "filter": "Muscles",
-                  "name": "string",
+                  "filter": "Body parts",
+                  "name": "lower legs",
                   "imgURL": "string"
                 }
               }
-            },
-            "description": "Muscles exercises found"
+            }
           },
           "401": {
             "description": "Not authorized"
@@ -418,33 +466,257 @@
         }
       }
     },
-    "/exercises/equipment": {
+    "/diary/exercise/:id": {
+      "patch": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Add exercise to diary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the exercise",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Diary"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "time": {
+                    "type": "number",
+                    "description": "Time spent on exercise in minutes",
+                    "required": true
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date in string format (e.g., '22.01.2024')",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "400": {
+            "description": "Exercise not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/diary/product/:id": {
+      "patch": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Add product to diary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the product",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Diary"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "weight": {
+                    "type": "number",
+                    "description": "Weight of the consumed product in grams",
+                    "required": true
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date in string format (e.g., '22.01.2024')",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "400": {
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/day": {
       "get": {
         "security": [
           {
             "Bearer": []
           }
         ],
-        "tags": ["Exercise"],
-        "summary": "Get equipment exercises",
+        "summary": "Get diary information for a specific date",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Date in string format",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Diary"],
         "responses": {
           "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/diary/exercise/{id}": {
+      "delete": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Delete exercise from diary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the exercise",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Diary"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "Date in string format (e.g., '22.01.2024')"
+                  }
+                },
+                "required": ["date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Exercise deleted successfully",
             "content": {
               "application/json": {
                 "example": {
-                  "filter": "Equipment",
-                  "name": "string",
-                  "imgURL": "string"
+                  "message": "Delete successful"
                 }
               }
-            },
-            "description": "Equipment exercises found"
+            }
           },
-          "401": {
-            "description": "Not authorized"
+          "400": {
+            "description": "Item not found on the specified date"
           },
-          "404": {
-            "description": "Not found"
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/diary/product/{id}": {
+      "delete": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Delete product from diary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the product",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Diary"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "Date in string format (e.g., '22.01.2024')"
+                  }
+                },
+                "required": ["date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Delete successful"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item not found on the specified date"
           },
           "500": {
             "description": "Server error"
@@ -513,13 +785,61 @@
           "levelActivity": {
             "type": "number",
             "enum": [1, 2, 3, 4, 5]
+          },
+          "calories": {
+            "type": "number",
+            "default": null
+          }
+        }
+      },
+      "UserProduct": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "required": true
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight of the consumed product in grams",
+            "required": true
+          },
+          "consumedCalories": {
+            "type": "number",
+            "description": "Consumed calories from the product",
+            "required": true
+          }
+        }
+      },
+      "UserExercise": {
+        "type": "object",
+        "properties": {
+          "exercise": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Exercise"
+            },
+            "required": true
+          },
+          "time": {
+            "type": "number",
+            "description": "Time spent on exercise in minutes",
+            "required": true
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "Burned calories during exercise",
+            "required": true
           }
         }
       },
       "Exercise": {
         "type": "object",
         "properties": {
-          "bodyparts": {
+          "bodypart": {
             "type": "string"
           },
           "equipment": {
@@ -573,6 +893,69 @@
                 "type": "boolean"
               }
             }
+          }
+        }
+      },
+      "ProductCategory": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+      "Filter": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "imgURL": {
+            "type": "string"
+          }
+        }
+      },
+      "Dairy": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string",
+            "description": "User_ID",
+            "required": true
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Day"
+            },
+            "description": "List of days in the diary"
+          }
+        }
+      },
+      "Day": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "required": true
+          },
+          "exercises": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserExercise"
+            },
+            "description": "List of exercises for the day"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserProduct"
+            },
+            "description": "List of consumed products for the day"
           }
         }
       }
