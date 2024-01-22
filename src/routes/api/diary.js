@@ -1,5 +1,4 @@
 const express = require("express");
-
 const {
   addExercise,
   addProduct,
@@ -7,14 +6,13 @@ const {
   deleteExerciseById,
   deleteProductById,
 } = require("../../controllers/diary.js");
-const { validateBody } = require("../../middlewares/index.js");
 const {
   dateSchema,
   addExerciseSchema,
   addProductSchema,
   deleteSchema,
 } = require("../../models/Day.js");
-const { authenticate, isEmptyBody } = require("../../middlewares/index.js");
+const { authenticate, isEmptyBody, validateBody } = require("../../middlewares/index.js");
 
 const dateSchemaValidate = validateBody(dateSchema);
 const addExerciseSchemaValidate = validateBody(addExerciseSchema);

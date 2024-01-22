@@ -33,7 +33,7 @@ const addExercise = async (req, res) => {
 
     if (existingExercise) {
       await Diary.findOneAndUpdate(
-        { owner: userId, "days.date": date },
+        { userId, "days.date": date },
         {
           $inc: {
             "days.$[dateEntry].exercises.$[exerciseEntry].time": time,
