@@ -108,9 +108,6 @@ const logout = async (req, res) => {
 const updateUser = async (req, res) => {
   const { _id } = req.user;
 
-  let calories;
-  let level;
-
   const {
     name,
     height,
@@ -124,7 +121,9 @@ const updateUser = async (req, res) => {
 
   const year = new Date(birthday);
   const currentDate = new Date();
+
   let age = currentDate.getFullYear() - year.getFullYear();
+
   if (
     currentDate.getMonth() < year.getMonth() ||
     (currentDate.getMonth() === year.getMonth() &&
@@ -132,6 +131,8 @@ const updateUser = async (req, res) => {
   ) {
     age--;
   }
+
+  let level;
 
   switch (levelActivity) {
     case 1:
@@ -150,6 +151,8 @@ const updateUser = async (req, res) => {
       level = 1.9;
       break;
   }
+
+  let calories;
 
   switch (sex) {
     case "male":
