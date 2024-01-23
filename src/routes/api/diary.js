@@ -9,13 +9,13 @@ const {
 const {
   addExerciseSchema,
   addProductSchema,
-  deleteSchema,
+  // deleteSchema,
 } = require("../../models/Day.js");
 const { authenticate, isEmptyBody, validateBody } = require("../../middlewares/index.js");
 
 const addExerciseSchemaValidate = validateBody(addExerciseSchema);
 const addProductSchemaValidate = validateBody(addProductSchema);
-const deleteSchemaValidate = validateBody(deleteSchema);
+// const deleteSchemaValidate = validateBody(deleteSchema);
 
 const diaryRouter = express.Router();
 
@@ -41,7 +41,7 @@ diaryRouter.delete(
   "/exercise/:id/",
   authenticate,
   isEmptyBody,
-  deleteSchemaValidate,
+  // deleteSchemaValidate,
   deleteExerciseById
 );
 
@@ -49,7 +49,7 @@ diaryRouter.delete(
   "/product/:id/",
   authenticate,
   isEmptyBody,
-  deleteSchemaValidate,
+  // deleteSchemaValidate,
   deleteProductById
 );
 
