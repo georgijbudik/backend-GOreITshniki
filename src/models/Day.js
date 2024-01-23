@@ -5,13 +5,6 @@ const requiredMessage = 'Missing required "date" field';
 const patternMessage =
   '{{#label}} with value {:[.]} fails to match the required pattern, example: "20.11.2020"';
 
-const dateSchema = Joi.object({
-  date: Joi.string().regex(dateRegex).length(10).required().messages({
-    "any.required": requiredMessage,
-    "string.pattern.base": patternMessage,
-  }),
-});
-
 const addExerciseSchema = Joi.object({
   date: Joi.string().regex(dateRegex).required().messages({
     "any.required": requiredMessage,
@@ -40,7 +33,6 @@ const deleteSchema = Joi.object({
 });
 
 module.exports = {
-  dateSchema,
   addExerciseSchema,
   addProductSchema,
   deleteSchema,

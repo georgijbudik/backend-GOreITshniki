@@ -38,7 +38,7 @@ const register = async (req, res) => {
   res.status(201).json({
     email: newUser.email,
     name: newUser.name,
-    token: token,
+    token,
   });
 };
 
@@ -169,15 +169,15 @@ const updateUser = async (req, res) => {
   }
 
   const userDataUpdate = {
-    name: name,
-    height: height,
-    currentWeight: currentWeight,
-    desiredWeight: desiredWeight,
-    birthday: birthday,
-    blood: blood,
-    sex: sex,
-    levelActivity: levelActivity,
-    calories: calories,
+    name,
+    height,
+    currentWeight,
+    desiredWeight,
+    birthday,
+    blood,
+    sex,
+    levelActivity,
+    calories,
   };
 
   const user = await User.findOne({ _id });

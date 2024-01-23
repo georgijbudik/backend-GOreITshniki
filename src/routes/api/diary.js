@@ -7,14 +7,16 @@ const {
   deleteProductById,
 } = require("../../controllers/diary.js");
 const {
-  dateSchema,
   addExerciseSchema,
   addProductSchema,
   deleteSchema,
 } = require("../../models/Day.js");
-const { authenticate, isEmptyBody, validateBody } = require("../../middlewares/index.js");
+const {
+  authenticate,
+  isEmptyBody,
+  validateBody,
+} = require("../../middlewares/index.js");
 
-const dateSchemaValidate = validateBody(dateSchema);
 const addExerciseSchemaValidate = validateBody(addExerciseSchema);
 const addProductSchemaValidate = validateBody(addProductSchema);
 const deleteSchemaValidate = validateBody(deleteSchema);
