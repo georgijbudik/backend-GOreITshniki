@@ -472,7 +472,60 @@
         }
       }
     },
+
     "/diary/exercise/{id}": {
+      "patch": {
+        "tags": ["Diary"],
+        "summary": "Add or update exercise in the diary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the exercise",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "time": {
+                    "type": "number",
+                    "required": true
+                  },
+                  "date": {
+                    "type": "string",
+                    "example": "23.01.2024"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "201": {
+            "description": "Exercise added successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Exercise not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
       "delete": {
         "security": [
           {
@@ -489,19 +542,20 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "tags": ["Diary"],
         "responses": {
           "200": {
-            "description": "Exercise deleted successfully",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Delete successful"
-                }
-              }
-            }
+            "description": "Exercise deleted successfully"
           },
           "400": {
             "description": "Item not found on the specified date"
@@ -513,6 +567,58 @@
       }
     },
     "/diary/product/{id}": {
+      "patch": {
+        "tags": ["Diary"],
+        "summary": "Add or update product in the diary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the product",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "weight": {
+                    "type": "number",
+                    "required": true
+                  },
+                  "date": {
+                    "type": "string",
+                    "example": "23.01.2024"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "201": {
+            "description": "Product added successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
       "delete": {
         "security": [
           {
@@ -529,19 +635,20 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "tags": ["Diary"],
         "responses": {
           "200": {
-            "description": "Product deleted successfully",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Delete successful"
-                }
-              }
-            }
+            "description": "Product deleted successfully"
           },
           "400": {
             "description": "Item not found on the specified date"
