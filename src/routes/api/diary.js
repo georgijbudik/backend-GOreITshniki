@@ -11,11 +11,7 @@ const {
   addProductSchema,
   deleteSchema,
 } = require("../../models/Day.js");
-const {
-  authenticate,
-  isEmptyBody,
-  validateBody,
-} = require("../../middlewares/index.js");
+const { authenticate, isEmptyBody, validateBody } = require("../../middlewares/index.js");
 
 const addExerciseSchemaValidate = validateBody(addExerciseSchema);
 const addProductSchemaValidate = validateBody(addProductSchema);
@@ -42,7 +38,7 @@ diaryRouter.patch(
 );
 
 diaryRouter.delete(
-  "/exercise/:id/:date",
+  "/exercise/:id/",
   authenticate,
   isEmptyBody,
   deleteSchemaValidate,
@@ -50,7 +46,7 @@ diaryRouter.delete(
 );
 
 diaryRouter.delete(
-  "/product/:id/:date",
+  "/product/:id/",
   authenticate,
   isEmptyBody,
   deleteSchemaValidate,
