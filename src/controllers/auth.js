@@ -162,7 +162,8 @@ const updateUser = async (req, res) => {
       break;
     case "female":
       const calculatorFemale =
-        (10 * currentWeight + 6.25 * height - 5 * age - 161) * level;
+        (10 * currentWeight + Math.round(6.25 * height) - 5 * age - 161) *
+        level;
       calories = Math.round(calculatorFemale);
       break;
   }
