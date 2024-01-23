@@ -40,7 +40,7 @@ diaryRouter.patch(
 diaryRouter.delete(
   "/exercise/:id/",
   authenticate,
-  isEmptyBody,
+  // isEmptyBody,
   // deleteSchemaValidate,
   deleteExerciseById
 );
@@ -48,7 +48,7 @@ diaryRouter.delete(
 diaryRouter.delete(
   "/product/:id/",
   authenticate,
-  isEmptyBody,
+  // isEmptyBody,
   // deleteSchemaValidate,
   deleteProductById
 );
