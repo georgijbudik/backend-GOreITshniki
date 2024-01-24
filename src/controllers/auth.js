@@ -180,9 +180,7 @@ const updateUser = async (req, res) => {
     calories,
   };
 
-  const user = await User.findOne({ _id });
-
-  await User.findOneAndUpdate(user, userDataUpdate);
+  await User.findOneAndUpdate({ _id }, userDataUpdate);
 
   res.status(200).json(userDataUpdate);
 };
