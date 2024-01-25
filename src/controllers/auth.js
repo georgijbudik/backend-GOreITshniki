@@ -67,6 +67,7 @@ const login = async (req, res) => {
 
 const getCurrent = async (req, res) => {
   const {
+    _id,
     email,
     name,
     height,
@@ -80,6 +81,8 @@ const getCurrent = async (req, res) => {
     calories,
   } = req.user;
 
+  const { createdAt: registerDate } = await User.findById(_id);
+
   const userData = {
     email,
     name,
@@ -92,6 +95,7 @@ const getCurrent = async (req, res) => {
     levelActivity,
     avatarURL,
     calories,
+    registerDate,
   };
 
   res.json(userData);
@@ -126,8 +130,7 @@ const updateUser = async (req, res) => {
 
   if (
     currentDate.getMonth() < year.getMonth() ||
-    (currentDate.getMonth() === year.getMonth() &&
-      currentDate.getDate() < year.getDate())
+    (currentDate.getMonth() === year.getMonth() && currentDate.getDate() < year.getDate())
   ) {
     age--;
   }
@@ -162,8 +165,7 @@ const updateUser = async (req, res) => {
       break;
     case "female":
       const calculatorFemale =
-        (10 * currentWeight + Math.round(6.25 * height) - 5 * age - 161) *
-        level;
+        (10 * currentWeight + Math.round(6.25 * height) - 5 * age - 161) * level;
       calories = Math.round(calculatorFemale);
       break;
   }
