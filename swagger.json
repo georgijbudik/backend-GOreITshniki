@@ -206,7 +206,7 @@
       }
     },
     "/users/avatar": {
-      "patch": {
+      "post": {
         "security": [
           {
             "Bearer": []
@@ -472,6 +472,11 @@
 
     "/diary/exercise/{id}": {
       "patch": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Diary"],
         "summary": "Add or update exercise in the diary",
         "parameters": [
@@ -565,6 +570,11 @@
     },
     "/diary/product/{id}": {
       "patch": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "tags": ["Diary"],
         "summary": "Add or update product in the diary",
         "parameters": [
